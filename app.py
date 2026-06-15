@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 
 st.set_page_config(
@@ -98,4 +97,3 @@ elif menu == "Admin Dashboard":
         "Tourist": ["Alice", "Bob", "Charlie"],
         "Status": ["Safe", "Alert", "Safe"]
     })
-```
