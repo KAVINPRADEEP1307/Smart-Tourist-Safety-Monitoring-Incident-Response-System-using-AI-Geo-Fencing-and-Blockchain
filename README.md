@@ -164,6 +164,13 @@ To develop an AI-powered tourist safety system that provides real-time monitorin
 * 📱 Real-time notifications
 * 🗺️ Safe route recommendations
 * 📊 Admin analytics dashboard
+* 🌦️ Weather Warning (Heavy rain, cyclone alerts).
+*🔋 Low Battery Alert.
+* 📶 Network Status.
+* 🗣️ Multi-language Support (English + Tamil + Hindi).
+* 📞 One-tap call to Police/Ambulance.
+* 📍 Nearby Hospitals & Police Stations.
+* 🔔 Notification panel.
 
 ---
 ## demo link
