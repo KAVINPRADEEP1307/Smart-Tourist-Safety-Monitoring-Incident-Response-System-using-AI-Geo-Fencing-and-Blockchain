@@ -392,13 +392,37 @@ html, body, [class*="css"] { font-family: 'Plus Jakarta Sans', sans-serif; backg
 /* slider */
 [data-testid="stSlider"] { padding: 0 !important; }
 
-/* toggle */
-.stToggle { background: #ffffff !important; border-radius: 10px !important; padding: .4rem .6rem !important; }
-.stToggle label { color: #000000 !important; font-size: 13px !important; font-weight: 600 !important; }
-.stToggle p { color: #000000 !important; font-weight: 600 !important; }
-[data-testid="stToggle"] { background: #ffffff !important; border-radius: 10px !important; padding: .3rem .5rem !important; }
-[data-testid="stToggle"] label { color: #000000 !important; font-size: 13px !important; font-weight: 600 !important; }
-[data-testid="stToggle"] span { color: #000000 !important; font-weight: 600 !important; }
+/* toggle - deep selectors for Streamlit internals */
+.stToggle,
+[data-testid="stToggle"],
+div[data-testid="stToggle"],
+.stCheckbox,
+[data-testid="stCheckbox"] {
+    background: #ffffff !important;
+    border-radius: 10px !important;
+    padding: .45rem .7rem !important;
+    margin-bottom: 4px !important;
+}
+.stToggle label,
+.stToggle label p,
+.stToggle label span,
+.stToggle > label,
+.stToggle > div > label,
+[data-testid="stToggle"] label,
+[data-testid="stToggle"] label p,
+[data-testid="stToggle"] label span,
+[data-testid="stToggle"] p,
+[data-testid="stToggle"] span,
+div[data-testid="stToggle"] p,
+div[data-testid="stToggle"] span,
+div[data-testid="stToggle"] label {
+    color: #000000 !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+}
+/* catch all p tags inside toggles */
+.stToggle p { color: #000000 !important; font-weight: 700 !important; font-size: 13.5px !important; }
+div[class*="toggle"] p, div[class*="Toggle"] p { color: #000000 !important; font-weight: 700 !important; }
 
 .divline { height:1px; background:linear-gradient(90deg,transparent,rgba(30,90,255,0.15),transparent); margin:.6rem 0; }
 </style>
@@ -1026,11 +1050,25 @@ elif page == "Admin":
 
     with c2:
         st.markdown('<div class="card"><div class="card-title">⚙️ System Controls</div>', unsafe_allow_html=True)
-        st.toggle("Geo-fence Alerts",   value=True)
-        st.toggle("AI Risk Monitoring", value=True)
-        st.toggle("Blockchain Logging", value=True)
-        st.toggle("SMS Notifications",  value=False)
-        st.toggle("Weather Alerts",     value=True)
+        # Custom HTML toggles - always visible black text on white
+        for label, default_on in [
+            ("🛡️ Geo-fence Alerts", True),
+            ("🤖 AI Risk Monitoring", True),
+            ("🔗 Blockchain Logging", True),
+            ("📱 SMS Notifications", False),
+            ("🌦️ Weather Alerts", True),
+        ]:
+            checked = "checked" if default_on else ""
+            color = "#1e5aff" if default_on else "#94a3b8"
+            status = "ON" if default_on else "OFF"
+            st.markdown(f"""
+            <div style="display:flex;align-items:center;justify-content:space-between;
+                        background:#ffffff;border:1px solid rgba(30,90,255,0.12);
+                        border-radius:10px;padding:.6rem 1rem;margin-bottom:6px;">
+                <span style="color:#000000;font-size:13px;font-weight:700;">{label}</span>
+                <span style="background:{color};color:#fff;font-size:10px;font-weight:800;
+                             padding:3px 10px;border-radius:20px;letter-spacing:.5px">{status}</span>
+            </div>""", unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown('<div class="pbtn">', unsafe_allow_html=True)
         if st.button("🔄  Refresh Data", use_container_width=True, key="ref_btn"): st.rerun()
